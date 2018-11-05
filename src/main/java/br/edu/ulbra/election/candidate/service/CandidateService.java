@@ -1,25 +1,20 @@
 package br.edu.ulbra.election.candidate.service;
 
-import br.edu.ulbra.election.candidate.exception.GenericOutputException;
-import br.edu.ulbra.election.candidate.input.v1.CandidateInput;
-import br.edu.ulbra.election.candidate.model.Candidate;
-import br.edu.ulbra.election.candidate.output.v1.GenericOutput;
-import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;
-import br.edu.ulbra.election.candidate.repository.CandidateRepository;
-import br.edu.ulbra.election.voter.input.v1.VoterInput;
-import br.edu.ulbra.election.voter.model.Voter;
-import br.edu.ulbra.election.voter.output.v1.VoterOutput;
-import br.edu.ulbra.election.voter.repository.VoterRepository;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
-import java.util.List;
+import br.edu.ulbra.election.candidate.exception.GenericOutputException;
+import br.edu.ulbra.election.candidate.input.v1.CandidateInput;
+import br.edu.ulbra.election.candidate.model.Candidate;
+import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;
+import br.edu.ulbra.election.candidate.output.v1.GenericOutput;
+import br.edu.ulbra.election.candidate.repository.CandidateRepository;
 
 @Service
 public class CandidateService {
