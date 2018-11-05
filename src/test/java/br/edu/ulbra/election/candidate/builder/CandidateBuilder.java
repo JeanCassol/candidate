@@ -23,7 +23,8 @@ public class CandidateBuilder {
     public static CandidateInput getCandidateInput() {
     	CandidateOutput candidateOutput = getCandidateOutput();
     	CandidateInput candidateInput = new CandidateInput();
-        candidateInput.setName(candidateOutput.getName());
+    	candidateInput.setElectionId(candidateOutput.getNumberElection());
+    	candidateInput.setName(candidateOutput.getName());
         candidateInput.setNumberElection(candidateOutput.getNumberElection());
         return candidateInput;
     }

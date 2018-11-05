@@ -2,27 +2,42 @@ package br.edu.ulbra.election.candidate.model;
 
 import javax.persistence.*;
 
+/*
+ *  id integer identity primary key,
+  name varchar(255) not null,
+  number integer not null,
+  election_id integer not null,
+  party_id integer not null
+  
+ */
 @Entity
 public class Candidate {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false)
 	private Integer id;
-	
+
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, name="party_id")
-	private Integer partyId;
+	@Column(nullable = false)
+	private Integer number;
 
-	@Column(nullable = false, name="")
-	private Integer numberElection;
-
-	@Column(nullable = false, name="election_id")
+	@Column(nullable = false, name = "election_id")
 	private Long electionId;
 
-	public String name() {
+	@Column(nullable = false, name = "party_id")
+	private Integer partyId;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
 		return name;
 	}
 
@@ -30,23 +45,15 @@ public class Candidate {
 		this.name = name;
 	}
 
-	public Integer partyId() {
-		return partyId;
+	public Integer getNumber() {
+		return number;
 	}
 
-	public void setPartyId(Integer partyId) {
-		this.partyId = partyId;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 
-	public Integer numberElection() {
-		return numberElection;
-	}
-
-	public void setNumberElection(Integer numberElection) {
-		this.numberElection = numberElection;
-	}
-
-	public Long electionId() {
+	public Long getElectionId() {
 		return electionId;
 	}
 
@@ -54,4 +61,11 @@ public class Candidate {
 		this.electionId = electionId;
 	}
 
+	public Integer getPartyId() {
+		return partyId;
+	}
+
+	public void setPartyId(Integer partyId) {
+		this.partyId = partyId;
+	}
 }
