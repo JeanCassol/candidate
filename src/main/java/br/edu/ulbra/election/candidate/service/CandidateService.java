@@ -94,8 +94,10 @@ public class CandidateService {
 	}
 
 	private void validateInput(CandidateInput candidateInput, boolean isUpdate) {
-
-		if (StringUtils.isBlank(candidateInput.getName())) {
+		String[] names = candidateInput.getName().split(" ");
+		if (StringUtils.isBlank(candidateInput.getName()) ||
+				candidateInput.getName().length() < 3 ||
+				names.length > 1) {
 			throw new GenericOutputException("Invalid Name");
 		}
 		
