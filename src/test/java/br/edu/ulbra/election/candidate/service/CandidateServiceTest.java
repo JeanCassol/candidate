@@ -124,7 +124,7 @@ public class CandidateServiceTest {
                 .willReturn(CandidateBuilder.getCandidate());
         CandidateOutput candidateOutput = candidateService.create(candidateInput);
         Assert.assertEquals(candidateInput.getName(), candidateOutput.getName());
-        Assert.assertEquals(candidateInput.getElectionId(), candidateOutput.getNumberElection());
+        Assert.assertEquals(candidateInput.getNumberElection(), candidateOutput.getNumberElection());
     }
 /*
     @Test(expected = GenericOutputException.class)

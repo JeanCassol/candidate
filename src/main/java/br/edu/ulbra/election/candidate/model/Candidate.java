@@ -15,25 +15,25 @@ public class Candidate {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
-	private Integer number;
+	@Column(nullable = false, name = "number")
+	private Long numberElection;
 
 	@Column(nullable = false, name = "election_id")
 	private Long electionId;
 
 	@Column(nullable = false, name = "party_id")
-	private Integer partyId;
+	private Long partyId;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -45,12 +45,12 @@ public class Candidate {
 		this.name = name;
 	}
 
-	public Integer getNumber() {
-		return number;
+	public Long getNumberElection() {
+		return numberElection;
 	}
 
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setNumberElection(Long numberElection) {
+		this.numberElection = numberElection;
 	}
 
 	public Long getElectionId() {
@@ -61,11 +61,12 @@ public class Candidate {
 		this.electionId = electionId;
 	}
 
-	public Integer getPartyId() {
+	public Long getPartyId() {
 		return partyId;
 	}
 
-	public void setPartyId(Integer partyId) {
+	public void setPartyId(Long partyId) {
 		this.partyId = partyId;
 	}
+
 }

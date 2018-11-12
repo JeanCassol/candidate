@@ -18,93 +18,98 @@ import br.edu.ulbra.election.candidate.repository.CandidateRepository;
 
 @Service
 public class CandidateService {
-	
+
 	private final CandidateRepository candidateRepository;
 
-    private final ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 
-    private static final String MESSAGE_INVALID_ID = "Invalid id";
-    private static final String MESSAGE_CANDIDATE_NOT_FOUND = "Candidate not found";
+	private static final String MESSAGE_INVALID_ID = "Invalid id";
+	private static final String MESSAGE_CANDIDATE_NOT_FOUND = "Candidate not found";
 
-    @Autowired
-    public CandidateService(CandidateRepository candidateRepository, ModelMapper modelMapper){
-        this.candidateRepository = candidateRepository;
-        this.modelMapper = modelMapper;
-    }
+	@Autowired
+	public CandidateService(CandidateRepository candidateRepository, ModelMapper modelMapper) {
+		this.candidateRepository = candidateRepository;
+		this.modelMapper = modelMapper;
+	}
 
-    public List<CandidateOutput> getAll(){
-        Type candidateOutputListType = new TypeToken<List<CandidateOutput>>(){}.getType();
-        return modelMapper.map(candidateRepository.findAll(), candidateOutputListType);
-    }
+	public List<CandidateOutput> getAll() {
+		Type candidateOutputListType = new TypeToken<List<CandidateOutput>>() {
+		}.getType();
+		return modelMapper.map(candidateRepository.findAll(), candidateOutputListType);
+	}
 
-    public CandidateOutput create(CandidateInput candidateInput) {
-        validateInput(candidateInput, false);
-        Candidate candidate = modelMapper.map(candidateInput, Candidate.class);
-        candidate = candidateRepository.save(candidate);
-        return modelMapper.map(candidate, CandidateOutput.class);
-    }
+	public CandidateOutput create(CandidateInput candidateInput) {
+		validateInput(candidateInput, false);
+		Candidate candidate = modelMapper.map(candidateInput, Candidate.class);
+		candidate = candidateRepository.save(candidate);
+		return modelMapper.map(candidate, CandidateOutput.class);
+	}
 
-    public CandidateOutput getById(Long candidateId){
-        if (candidateId == null){
-            throw new GenericOutputException(MESSAGE_INVALID_ID);
-        }
+	public CandidateOutput getById(Long candidateId) {
+		if (candidateId == null) {
+			throw new GenericOutputException(MESSAGE_INVALID_ID);
+		}
 
-        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
-        if (candidate == null){
-            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
-        }
+		Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+		if (candidate == null) {
+			throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+		}
 
-        return modelMapper.map(candidate, CandidateOutput.class);
-    }
+		return modelMapper.map(candidate, CandidateOutput.class);
+	}
 
-    public CandidateOutput update(Long candidateId, CandidateInput candidateInput) {
-        if (candidateId == null){
-            throw new GenericOutputException(MESSAGE_INVALID_ID);
-        }
-        validateInput(candidateInput, true);
+	public CandidateOutput update(Long candidateId, CandidateInput candidateInput) {
+		if (candidateId == null) {
+			throw new GenericOutputException(MESSAGE_INVALID_ID);
+		}
+		validateInput(candidateInput, true);
 
-        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
-        if (candidate == null){
-            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
-        }
+		Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+		if (candidate == null) {
+			throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+		}
 
-        candidate.setName(candidateInput.getName());
-        /*if (!StringUtils.isBlank(voterInput.getPassword())) {
-            voter.setPassword(passwordEncoder.encode(voterInput.getPassword()));
-        }																					Password não é utilizado a principio no Candidate  */
-        candidate = candidateRepository.save(candidate);
-        return modelMapper.map(candidate, CandidateOutput.class);
-    }
+		candidate.setName(candidateInput.getName());
+		candidate.setNumberElection(candidateInput.getNumberElection());
+		candidate.setPartyId(candidateInput.getPartyId());
+		candidate.setElectionId(candidateInput.getElectionId());
 
-    public GenericOutput delete(Long candidateId) {
-        if (candidateId == null){
-            throw new GenericOutputException(MESSAGE_INVALID_ID);
-        }
+		candidate = candidateRepository.save(candidate);
+		return modelMapper.map(candidate, CandidateOutput.class);
+	}
 
-        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
-        if (candidate == null){
-            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
-        }
+	public GenericOutput delete(Long candidateId) {
+		if (candidateId == null) {
+			throw new GenericOutputException(MESSAGE_INVALID_ID);
+		}
 
-        candidateRepository.delete(candidate);
+		Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+		if (candidate == null) {
+			throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+		}
 
-        return new GenericOutput("Candidate deleted");
-    }
+		candidateRepository.delete(candidate);
 
-    private void validateInput(CandidateInput candidateInput, boolean isUpdate){
-      
-        if (StringUtils.isBlank(candidateInput.getName())){
-            throw new GenericOutputException("Invalid name");
-        }
-        /*if (!StringUtils.isBlank(voterInput.getPassword())){
-            if (!voterInput.getPassword().equals(voterInput.getPasswordConfirm())){
-                throw new GenericOutputException("Passwords doesn't match");
-            }
-        } else {
-            if (!isUpdate) {
-                throw new GenericOutputException("Password doesn't match");
-            }
-        }																			Password não utilizado, o que colocar no lugar pra validação ?*/		
-    }
-	
+		return new GenericOutput("Candidate deleted");
+	}
+
+	private void validateInput(CandidateInput candidateInput, boolean isUpdate) {
+
+		if (StringUtils.isBlank(candidateInput.getName())) {
+			throw new GenericOutputException("Invalid Name");
+		}
+		
+		if (candidateInput.getNumberElection().equals(0)) {
+			throw new GenericOutputException("Invalid Number Election");
+		}
+		
+		if (candidateInput.getPartyId().equals(0)) {
+			throw new GenericOutputException("Invalid Party Id");
+		}
+		
+		if (candidateInput.getElectionId().equals(0)) {
+			throw new GenericOutputException("Invalid Election Id");
+		}
+	}
+
 }
