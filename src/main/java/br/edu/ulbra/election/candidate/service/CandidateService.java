@@ -118,7 +118,10 @@ public class CandidateService {
         if (candidateInput.getPartyId() == null){
             throw new GenericOutputException("Invalid Party");
         }
-
+        if (candidateInput.getElectionId() == null){
+            throw new GenericOutputException(MESSAGE_INVALID_ELECTION_ID);
+        }
+        
         try{
             PartyOutput partyOutput = partyClientService.getById(candidateInput.getPartyId());
             if (!candidateInput.getNumberElection().toString().startsWith(partyOutput.getNumber().toString())){
@@ -130,9 +133,6 @@ public class CandidateService {
             }
         }
 
-        if (candidateInput.getElectionId() == null){
-            throw new GenericOutputException(MESSAGE_INVALID_ELECTION_ID);
-        }
         try {
             electionClientService.getById(candidateInput.getElectionId());
         } catch (FeignException e){
