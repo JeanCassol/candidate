@@ -27,12 +27,30 @@ public class CandidateApi {
         return candidateService.getAll();
     }
 
-    @GetMapping("/{candidateId}")
-    @ApiOperation(value = "Get candidate by Id")
-    public CandidateOutput getById(@PathVariable Long candidateId){
-        return candidateService.getById(candidateId);
+    @GetMapping("/party/{partyId}")
+    @ApiOperation(value = "Get candidate by party Id")
+    public CandidateOutput getByIdParty(@PathVariable Long partyId){
+        return candidateService.getByPartyId(partyId);
     }
 
+    @GetMapping("/election/{electionId}")
+    @ApiOperation(value = "Get candidate by election Id")
+    public CandidateOutput getByIdElection(@PathVariable Long electionId){
+        return candidateService.getByElectionId(electionId);
+    }
+    
+    @GetMapping("all/election/{electionId}")
+    @ApiOperation(value = "Get All candidate by election Id")
+    public List<CandidateOutput> getAllByIdElection(@PathVariable Long electionId){
+        return candidateService.getAllByElectionId(electionId);
+    }
+
+	@GetMapping("/{candidateId}")
+	@ApiOperation(value = "Get candidate Id")
+	public CandidateOutput getById(@PathVariable Long candidateId) {
+		return candidateService.getById(candidateId);
+	}
+    
     @PostMapping("/")
     @ApiOperation(value = "Create new candidate")
     public CandidateOutput create(@RequestBody CandidateInput candidateInput){
